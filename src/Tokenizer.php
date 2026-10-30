@@ -875,15 +875,12 @@ final class Tokenizer
             Token::TOKEN_TYPE_NUMBER => '(?:\d+(?:\.\d+)?|0x[\da-fA-F]+|0b[01]+)(?=$|\s|"\'`|' . $regexBoundaries . ')',
             // punctuation and symbols
             Token::TOKEN_TYPE_BOUNDARY => $regexBoundaries,
-            // data type modifiers, this make 'WITH TIMEZONE' to be different from the 'WITH" from CTE
-            Token::TOKEN_TYPE_RESERVED => '(?<!\.)' . $regexDataTypeModifiers . '(?=$|\s|' . $regexBoundaries . ')'
-                . '|(?<!\.)' . $regexReserved . '(?=$|\s|' . $regexBoundaries . ')'
-                . '|' . $regexFunction . '(?=\s*\()',
             // A reserved word cannot be preceded by a '.'
             // this makes it so in "mytable.from", "from" is not considered a reserved word
-            Token::TOKEN_TYPE_RESERVED_TOPLEVEL => '(?<!\.|\sCHARACTER\s(?=SET\s))' . $regexReservedToplevel . '(?=$|\s|' . $regexBoundaries . ')',
+            Token::TOKEN_TYPE_RESERVED_TOPLEVEL => '(?<!\.|\sCHARACTER\s(?=SET\s))(?!WITH\s+TIME\s+ZONE(?=$|\s|' . $regexBoundaries . '))' . $regexReservedToplevel . '(?=$|\s|' . $regexBoundaries . ')',
             Token::TOKEN_TYPE_RESERVED_NEWLINE => '(?<!\.)' . $regexReservedNewline . '(?=$|\s|' . $regexBoundaries . ')',
-            Token::TOKEN_TYPE_RESERVED => '(?<!\.)' . $regexReserved . '(?=$|\s|' . $regexBoundaries . ')'
+            Token::TOKEN_TYPE_RESERVED => '(?<!\.)' . $regexDataTypeModifiers . '(?=$|\s|' . $regexBoundaries . ')'
+                . '|(?<!\.)' . $regexReserved . '(?=$|\s|' . $regexBoundaries . ')'
                 // A function must be succeeded by '('
                 // this makes it so "count(" is considered a function, but "count" alone is not function
                 . '|' . $regexFunction . '(?=\s*\()',

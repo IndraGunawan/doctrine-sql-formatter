@@ -1687,7 +1687,7 @@ final class TokenizerTest extends TestCase
 
         yield 'WITHOUT TIME ZONE as single token' => [
             [
-                new Token(Token::TOKEN_TYPE_RESERVED, 'TIME'),
+                new Token(Token::TOKEN_TYPE_WORD, 'TIME'),
                 new Token(Token::TOKEN_TYPE_WHITESPACE, ' '),
                 new Token(Token::TOKEN_TYPE_RESERVED, 'WITHOUT TIME ZONE'),
             ],
@@ -1703,7 +1703,6 @@ final class TokenizerTest extends TestCase
                 new Token(Token::TOKEN_TYPE_RESERVED, 'AS'),
             ],
             'WITH cte AS',
-        ];
         ];
     }
 
